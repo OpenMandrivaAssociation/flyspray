@@ -14,6 +14,7 @@ Requires:	apache-mod_php >= 2.0.54
 Requires:	php-adodb >= 1:4.64-1mdk
 BuildRequires:	apache-base >= 2.0.54-5mdk
 BuildArch:	noarch
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 %{name} is a simple bug tracking system, written in php, aimed
