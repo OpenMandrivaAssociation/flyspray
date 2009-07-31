@@ -1,5 +1,5 @@
 %define name    flyspray
-%define version 0.9.9.5.1
+%define version 0.9.9.6
 %define release %mkrel 1
 
 Summary:    A simple Bug tracking system
@@ -14,7 +14,6 @@ Source1:	README.urpmi
 Requires(pre):  rpm-helper   
 Requires:   apache-mod_php >= 2.0.54
 Requires:   php-adodb >= 1:4.64-1mdk
-BuildRequires:  apache-base >= 2.0.54-5mdk
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -26,7 +25,7 @@ The configuration is done trough a web interface, and you can fully
 control who can do what on the various task.
 
 %prep
-%setup -q
+%setup -q -c %{name}-%{release}
 
 # strip away annoying ^M
 find . -type f | perl -ne 'chomp; print "$_\n" if -T $_' | xargs perl -pi -e 'tr/\r//d'
