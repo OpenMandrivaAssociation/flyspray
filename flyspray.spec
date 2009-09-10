@@ -1,6 +1,6 @@
 %define name    flyspray
 %define version 0.9.9.6
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary:    A simple Bug tracking system
 Name:       %{name}
