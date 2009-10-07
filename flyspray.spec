@@ -1,6 +1,8 @@
 %define name    flyspray
 %define version 0.9.9.6
-%define release %mkrel 2
+%define release %mkrel 3
+
+%define _requires_exceptions pear(Zend.*)
 
 Summary:    A simple Bug tracking system
 Name:       %{name}
@@ -15,7 +17,7 @@ Requires(pre):  rpm-helper
 Requires:   apache-mod_php >= 2.0.54
 Requires:   php-adodb >= 1:4.64-1mdk
 BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot:  %{_tmppath}/%{name}-%{version}
 
 %description
 %{name} is a simple bug tracking system, written in php, aimed
@@ -26,9 +28,6 @@ control who can do what on the various task.
 
 %prep
 %setup -q -c %{name}-%{release}
-
-# strip away annoying ^M
-find . -type f | perl -ne 'chomp; print "$_\n" if -T $_' | xargs perl -pi -e 'tr/\r//d'
 
 %build
 
@@ -103,4 +102,3 @@ rm -rf %buildroot
 %dir %attr(0755,apache,apache) %{_var}/www/%{name}/cache/
 %config(noreplace) %attr(0755,apache,apache) %{_sysconfdir}/%{name}/flyspray.conf.php
 %config(noreplace) %{_webappconfdir}/%{name}.conf
-
