@@ -1,6 +1,6 @@
 %define name    flyspray
 %define version 0.9.9.6
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define _requires_exceptions pear(Zend.*)
 
@@ -12,10 +12,12 @@ License:    GPLv2
 Group:      Networking/WWW
 Url:        http://flyspray.org
 Source0:    http://flyspray.org/%{name}-%{version}.tar.bz2
-Source1:	README.urpmi
-Requires(pre):  rpm-helper   
-Requires:   apache-mod_php >= 2.0.54
-Requires:   php-adodb >= 1:4.64-1mdk
+Requires:   apache-mod_php
+Requires:   php-adodb
+%if %mdkversion < 201010
+Requires(post):   rpm-helper
+Requires(postun):   rpm-helper
+%endif
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}
 
@@ -82,17 +84,71 @@ Alias /%{name} %{_var}/www/%{name}
 <Files %{_var}/www/%{name}/plugins/fetch.php>
     Allow from all
 </Files>
+EOF
 
+cat > README.urpmi <<EOF
+Once this package is installed, there are a few configuration items which need
+to be performed before the blog is usable.  First, you need to install
+Mysql or PostgreSQL database and corresponding php modules:
+
+# urpmi mysql php-mysql
+
+or 
+
+# urpmi postgresql php-pgsql
+
+Then, you need to establish a username and password to connect to your
+MySQL database as, and make both MySQL/Postgres and Flyspray aware of this.
+Let's start by creating the database and the username / password
+inside MySQL first:
+
+  # mysql
+  mysql> create database flyspray;
+  Query OK, 1 row affected (0.00 sec)
+
+  mysql> grant all privileges on flyspray.* to flyspray identified by 'flyspray';
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> flush privileges;
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> exit
+  Bye
+  #
+
+Under certain curcumstances, you may need to run variations of the "grant"
+command:
+mysql> grant all privileges on flyspray.* to flyspray@localhost identified by 'flyspray';
+   OR
+mysql> grant all privileges on flyspray.* to flyspray@'%' identified by 'flyspray';
+
+This has created an empty database called 'flyspray', created a user named
+'flyspray' with a password of 'flyspray', and given the 'flyspray' user total
+permission over the 'flyspray' database.  Obviously, you'll want to select a
+different password, and you may want to choose different database and user
+names depending on your installation.  The specific values you choose are
+not constrained, they simply need to be consistent between the database and the
+config file.
+
+Once that's done and the database server and web server have been started, 
+ in your favourite web browser, enter following URL :
+http://hostname/flyspray/  and 
+follow the instructions given to you on the pages you see to set up the 
+database tables and begin publishing your blog.
 EOF
 
 %clean
 rm -rf %buildroot
 
 %post 
+%if %mdkversion < 201010
 %_post_webapp
+%endif
 
 %postun 
+%if %mdkversion < 201010
 %_postun_webapp
+%endif
 
 %files
 %defattr(0644,root,root,0755)
