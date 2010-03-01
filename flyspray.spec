@@ -33,11 +33,8 @@ control who can do what on the various task.
 
 %build
 
-
 %install
 rm -rf %buildroot
-%__install -d -m 755 %{buildroot}%_defaultdocdir/%{name}
-%__install -m 644 %{SOURCE1} %{buildroot}%_defaultdocdir/%{name}
 
 %__install -d -m 755 %{buildroot}%{_var}/www/%{name}
 cp -aRf * %{buildroot}%{_var}/www/%{name}
@@ -151,7 +148,7 @@ rm -rf %buildroot
 %endif
 
 %files
-%defattr(0644,root,root,0755)
+%defattr(-,root,root)
 %doc docs/* 
 %{_var}/www/%{name}
 %dir %attr(0755,apache,apache) %{_var}/www/%{name}/attachments/
