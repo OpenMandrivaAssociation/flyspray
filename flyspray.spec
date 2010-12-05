@@ -1,6 +1,6 @@
 %define name    flyspray
 %define version 0.9.9.6
-%define release %mkrel 4
+%define release %mkrel 5
 
 %define _requires_exceptions pear(Zend.*)
 
