@@ -1,25 +1,20 @@
-%define name    flyspray
-%define version 0.9.9.6
-%define release %mkrel 5
-
+%if %{_use_internal_dependency_generator}
+%define __noautoreq 'pear\\(Zend(.*)\\)'
+%else
 %define _requires_exceptions pear(Zend.*)
-
-Summary:    A simple Bug tracking system
-Name:       %{name}
-Version:    %{version}
-Release:    %{release}
-License:    GPLv2
-Group:      Networking/WWW
-Url:        http://flyspray.org
-Source0:    http://flyspray.org/%{name}-%{version}.tar.bz2
-Requires:   apache-mod_php
-Requires:   php-adodb
-%if %mdkversion < 201010
-Requires(post):   rpm-helper
-Requires(postun):   rpm-helper
 %endif
-BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}
+
+Summary:	A simple Bug tracking system
+Name:		flyspray
+Version:	0.9.9.6
+Release:	6
+License:	GPLv2
+Group:		Networking/WWW
+Url:		http://flyspray.org
+Source0:	http://flyspray.org/%{name}-%{version}.tar.bz2
+Requires:	apache-mod_php
+Requires:	php-adodb
+BuildArch:	noarch
 
 %description
 %{name} is a simple bug tracking system, written in php, aimed
@@ -34,8 +29,6 @@ control who can do what on the various task.
 %build
 
 %install
-rm -rf %buildroot
-
 %__install -d -m 755 %{buildroot}%{_var}/www/%{name}
 cp -aRf * %{buildroot}%{_var}/www/%{name}
 
@@ -134,24 +127,30 @@ follow the instructions given to you on the pages you see to set up the
 database tables and begin publishing your blog.
 EOF
 
-%clean
-rm -rf %buildroot
-
-%post 
-%if %mdkversion < 201010
-%_post_webapp
-%endif
-
-%postun 
-%if %mdkversion < 201010
-%_postun_webapp
-%endif
-
 %files
-%defattr(-,root,root)
 %doc docs/* 
-%{_var}/www/%{name}
+%{_var}/www/%{name}/adodb
+%{_var}/www/%{name}/docs
+%{_var}/www/%{name}/favicon.ico
+%{_var}/www/%{name}/feed.php
+%{_var}/www/%{name}/flyspray.conf.php
+%{_var}/www/%{name}/header.php
+%{_var}/www/%{name}/htaccess.dist
+%{_var}/www/%{name}/includes
+%{_var}/www/%{name}/index.php
+%{_var}/www/%{name}/javascript
+%{_var}/www/%{name}/lang
+%{_var}/www/%{name}/plugins
+%{_var}/www/%{name}/scripts
+%{_var}/www/%{name}/setup
+%{_var}/www/%{name}/templates
+%{_var}/www/%{name}/themes
+%{_var}/www/%{name}/robots.txt
+%{_var}/www/%{name}/schedule.php
 %dir %attr(0755,apache,apache) %{_var}/www/%{name}/attachments/
 %dir %attr(0755,apache,apache) %{_var}/www/%{name}/cache/
+%attr(0644,apache,apache) %{_var}/www/%{name}/attachments/index.html
+%attr(0644,apache,apache) %{_var}/www/%{name}/cache/index.html
 %config(noreplace) %attr(0755,apache,apache) %{_sysconfdir}/%{name}/flyspray.conf.php
 %config(noreplace) %{_webappconfdir}/%{name}.conf
+
