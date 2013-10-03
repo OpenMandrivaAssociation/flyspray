@@ -14,6 +14,7 @@ Url:		http://flyspray.org
 Source0:	http://flyspray.org/%{name}-%{version}.tar.bz2
 Requires:	apache-mod_php
 Requires:	php-adodb
+Requires:	apache-mod_socache_shmcb
 BuildArch:	noarch
 
 %description
