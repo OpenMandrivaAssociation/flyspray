@@ -72,7 +72,7 @@ Alias /%{name} %{_var}/www/%{name}
 </Files>
 
 <Files %{_var}/www/%{name}/plugins/fetch.php>
-    Require all denied
+    Require all granted
 </Files>
 EOF
 
