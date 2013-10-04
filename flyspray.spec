@@ -14,6 +14,7 @@ Url:		http://flyspray.org
 Source0:	http://flyspray.org/%{name}-%{version}.tar.bz2
 Requires:	apache-mod_php
 Requires:	php-adodb
+Requires:	apache-mod_socache_shmcb
 BuildArch:	noarch
 
 %description
@@ -48,31 +49,31 @@ cat > %{buildroot}/%{_webappconfdir}/%{name}.conf << EOF
 
 Alias /%{name} %{_var}/www/%{name}
 <Directory %{_var}/www/%{name}>
-    Allow from all
+    Require all granted
 </Directory>
 
 <Directory %{_var}/www/%{name}/adodb>
-    Deny from all
+    Require all denied
 </Directory>
 
 <Directory %{_var}/www/%{name}/conf>
-    Deny from all
+    Require all denied
 </Directory>
 
 <Directory %{_var}/www/%{name}/includes>
-    Deny from all
+    Require all denied
 </Directory>
 
 <Directory %{_var}/www/%{name}/templates>
-    Deny from all
+    Require all denied
 </Directory>
 
 <Files %{_var}/www/%{name}/plugins/*.php>
-    Deny from all
+    Require all denied
 </Files>
 
 <Files %{_var}/www/%{name}/plugins/fetch.php>
-    Allow from all
+    Require all granted
 </Files>
 EOF
 
