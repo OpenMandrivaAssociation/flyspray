@@ -7,7 +7,7 @@
 Summary:	A simple Bug tracking system
 Name:		flyspray
 Version:	0.9.9.6
-Release:	6
+Release:	7
 License:	GPLv2
 Group:		Networking/WWW
 Url:		http://flyspray.org
