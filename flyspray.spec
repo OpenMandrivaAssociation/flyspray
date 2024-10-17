@@ -10,7 +10,7 @@ Version:	0.9.9.6
 Release:	8
 License:	GPLv2
 Group:		Networking/WWW
-Url:		http://flyspray.org
+Url:		https://flyspray.org
 Source0:	http://flyspray.org/%{name}-%{version}.tar.bz2
 Requires:	apache-mod_php
 Requires:	php-adodb
